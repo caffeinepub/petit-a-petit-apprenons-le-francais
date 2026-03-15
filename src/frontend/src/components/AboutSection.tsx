@@ -1,11 +1,15 @@
-import { Award, BookOpen, Star, Users } from "lucide-react";
+import { Award, BookOpen, GraduationCap, Users } from "lucide-react";
 import { motion } from "motion/react";
 
 const stats = [
-  { icon: Users, value: "100+", label: "Students Taught" },
-  { icon: Award, value: "100/100", label: "Perfect Scores Achieved" },
-  { icon: BookOpen, value: "5 Grades", label: "Grades 6–10" },
-  { icon: Star, value: "5★", label: "Average Rating" },
+  { icon: Users, value: "70+", label: "Students Taught" },
+  { icon: Award, value: "95%+", label: "Average Score in Boards" },
+  { icon: BookOpen, value: "Grades 5–12", label: "All Levels Covered" },
+  {
+    icon: GraduationCap,
+    value: "DELF A1/A2/B1",
+    label: "Certification Classes",
+  },
 ];
 
 export default function AboutSection() {
@@ -29,23 +33,29 @@ export default function AboutSection() {
             </h2>
             <div className="space-y-4 text-foreground/70 leading-relaxed">
               <p>
-                With years of dedicated experience teaching French to students
-                across Grades 6–10, I bring the beauty of the French language
-                alive in every classroom. My teaching philosophy is rooted in
-                the French proverb:{" "}
-                <em>"Petit à petit, l'oiseau fait son nid"</em>— little by
-                little, the bird builds its nest.
+                I am a DALF C1 qualified French instructor with five years of
+                experience dedicated to helping students master the language. My
+                teaching philosophy is built on the belief that French grammar
+                doesn't have to be daunting; I strive to simplify complex
+                concepts, making them intuitive and accessible for every
+                learner.
               </p>
               <p>
-                Specialising in school curriculum French across CBSE, ICSE, and
-                state boards in India, I tailor my approach to each student's
-                learning pace and style. The result? A proven track record of
-                students achieving perfect 100/100 marks in board examinations.
+                Over the past five years, I have mentored more than 70 students,
+                all of whom achieved scores of 95% and above in their board
+                exams. This success is the result of a highly personalized
+                approach: I begin by identifying each student's unique strengths
+                and weaknesses to design bespoke lessons. By constantly
+                reviewing progress and adjusting my strategy, I ensure that my
+                teaching evolves alongside the student's needs to maximize their
+                scores.
               </p>
               <p>
-                Beyond scores, my goal is to instil a genuine love for the
-                French language and culture — a skill that opens doors
-                worldwide.
+                Beyond school boards, I actively nudge and prepare my students
+                for DELF certifications, bridging the gap between classroom
+                excellence and global linguistic proficiency. My goal is to
+                provide the strategic tools and confidence every student needs
+                to truly excel.
               </p>
             </div>
           </motion.div>
@@ -70,7 +80,7 @@ export default function AboutSection() {
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl mb-3 group-hover:bg-secondary/20 transition-colors">
                   <stat.icon className="text-primary w-6 h-6" />
                 </div>
-                <p className="font-display text-2xl font-bold text-primary">
+                <p className="font-display text-xl font-bold text-primary">
                   {stat.value}
                 </p>
                 <p className="text-xs text-foreground/60 mt-1 font-medium">

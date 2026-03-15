@@ -93,7 +93,7 @@ export default function AchievementsSection() {
   const achievements = data && data.length > 0 ? data : seedAchievements;
 
   return (
-    <section id="achievements" className="py-20 sm:py-28 bg-navy">
+    <section id="achievements" className="py-20 sm:py-28 bg-cream">
       <div className="max-w-6xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -104,11 +104,11 @@ export default function AchievementsSection() {
           <p className="text-gold text-sm font-semibold tracking-[0.25em] uppercase mb-3">
             ⚜ Wall of Fame
           </p>
-          <h2 className="font-display text-3xl sm:text-4xl font-bold text-white">
+          <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground">
             Our Star Students
             <span className="text-gold italic"> — Perfect 100!</span>
           </h2>
-          <p className="mt-4 text-white/60 max-w-xl mx-auto">
+          <p className="mt-4 text-foreground/60 max-w-xl mx-auto">
             These brilliant students achieved the perfect score of 100/100 in
             their French examinations — a testament to their dedication and hard
             work.
@@ -121,16 +121,19 @@ export default function AchievementsSection() {
             data-ocid="achievements.loading_state"
           >
             {SKELETON_KEYS.map((k) => (
-              <div key={k} className="bg-white/10 rounded-2xl p-6">
-                <Skeleton className="w-14 h-14 rounded-full mx-auto mb-4 bg-white/20" />
-                <Skeleton className="h-5 w-32 mx-auto mb-2 bg-white/20" />
-                <Skeleton className="h-4 w-24 mx-auto bg-white/20" />
+              <div
+                key={k}
+                className="bg-white rounded-2xl p-6 border border-border"
+              >
+                <Skeleton className="w-14 h-14 rounded-full mx-auto mb-4" />
+                <Skeleton className="h-5 w-32 mx-auto mb-2" />
+                <Skeleton className="h-4 w-24 mx-auto" />
               </div>
             ))}
           </div>
         ) : achievements.length === 0 ? (
           <div
-            className="text-center py-16 text-white/50"
+            className="text-center py-16 text-foreground/50"
             data-ocid="achievements.empty_state"
           >
             <Trophy className="w-12 h-12 mx-auto mb-4 opacity-30" />

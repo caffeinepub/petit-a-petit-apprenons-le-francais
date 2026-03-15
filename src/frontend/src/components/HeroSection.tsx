@@ -6,7 +6,7 @@ export default function HeroSection() {
     <section
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{ backgroundColor: "#0d1b3e" }}
+      style={{ backgroundColor: "#faf8f3" }}
     >
       {/* Background image */}
       <div
@@ -14,18 +14,18 @@ export default function HeroSection() {
         style={{
           backgroundImage:
             "url('/assets/generated/hero-banner.dim_1200x600.jpg')",
-          opacity: 0.15,
+          opacity: 0.25,
         }}
       />
 
-      {/* Dark overlay to ensure readability */}
+      {/* Light overlay */}
       <div
         className="absolute inset-0"
-        style={{ backgroundColor: "rgba(10, 20, 55, 0.72)" }}
+        style={{ backgroundColor: "rgba(250, 248, 243, 0.70)" }}
       />
 
       {/* Fleur-de-lis dot pattern overlay */}
-      <div className="absolute inset-0 fleur-pattern opacity-40" />
+      <div className="absolute inset-0 fleur-pattern opacity-20" />
 
       {/* Tricolor stripe at top */}
       <div className="absolute top-0 left-0 right-0 h-1 tricolor-bar" />
@@ -50,19 +50,25 @@ export default function HeroSection() {
           className="text-sm font-semibold tracking-[0.3em] uppercase mb-4"
           style={{ color: "#d4a843" }}
         >
-          French Tuition • Grades 6–10 • India
+          French Tuition • Grades 5–12 • India
         </motion.p>
 
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="font-display text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-4"
-          style={{ color: "#ffffff" }}
+          className="font-display font-bold leading-tight mb-4"
+          style={{ color: "#0d1b3e" }}
         >
-          Petit à Petit
-          <br />
-          <span style={{ color: "#d4a843" }}>Apprenons le Français</span>
+          <span className="text-4xl sm:text-5xl md:text-7xl block">
+            Petit à Petit
+          </span>
+          <span
+            className="text-2xl sm:text-3xl md:text-5xl italic"
+            style={{ color: "#d4a843" }}
+          >
+            Apprenons le Français
+          </span>
         </motion.h1>
 
         <motion.p
@@ -70,7 +76,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
           className="text-lg sm:text-xl max-w-2xl mx-auto mb-4"
-          style={{ color: "rgba(255,255,255,0.95)" }}
+          style={{ color: "rgba(13,27,62,0.85)" }}
         >
           &ldquo;Little by little, let&apos;s learn French&rdquo;
         </motion.p>
@@ -80,10 +86,11 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
           className="text-base sm:text-lg max-w-xl mx-auto mb-10"
-          style={{ color: "rgba(255,255,255,0.90)" }}
+          style={{ color: "rgba(13,27,62,0.75)" }}
         >
-          Nurturing a love for the French language, one student at a time.
-          Proven results with students achieving perfect 100/100.
+          To empower students with a strategic and simplified approach to
+          French, transforming linguistic challenges into academic excellence
+          and global certification success.
         </motion.p>
 
         <motion.div
@@ -104,8 +111,8 @@ export default function HeroSection() {
             href="#achievements"
             className="inline-flex items-center justify-center px-8 py-4 font-semibold text-base rounded-full transition-all duration-200"
             style={{
-              border: "2px solid rgba(255,255,255,0.5)",
-              color: "#ffffff",
+              border: "2px solid rgba(13,27,62,0.3)",
+              color: "#0d1b3e",
             }}
             data-ocid="hero.achievements.secondary_button"
           >
@@ -120,7 +127,7 @@ export default function HeroSection() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
-        style={{ color: "rgba(255,255,255,0.5)" }}
+        style={{ color: "rgba(13,27,62,0.4)" }}
       >
         <span className="text-xs tracking-widest uppercase">Scroll</span>
         <ChevronDown size={16} className="animate-bounce" />

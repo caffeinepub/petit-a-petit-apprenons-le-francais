@@ -26,7 +26,7 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-navy shadow-navy backdrop-blur-sm py-2"
+          ? "bg-white shadow-md backdrop-blur-sm py-2"
           : "bg-transparent py-4"
       }`}
     >
@@ -43,7 +43,7 @@ export default function Navbar() {
             className="w-10 h-10 object-contain"
           />
           <div>
-            <p className="font-display text-sm font-bold text-white leading-tight">
+            <p className="font-display text-sm font-bold text-foreground leading-tight">
               Petit à Petit
             </p>
             <p className="text-xs text-gold leading-tight hidden sm:block">
@@ -58,7 +58,7 @@ export default function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="px-4 py-2 text-sm text-white/80 hover:text-gold transition-colors duration-200 font-medium rounded-md hover:bg-white/5"
+                className="px-4 py-2 text-sm text-foreground/70 hover:text-gold transition-colors duration-200 font-medium rounded-md hover:bg-black/5"
                 data-ocid={`nav.${link.label.toLowerCase()}.link`}
               >
                 {link.label}
@@ -79,7 +79,7 @@ export default function Navbar() {
         {/* Mobile Menu Toggle */}
         <button
           type="button"
-          className="md:hidden p-2 text-white rounded-md hover:bg-white/10"
+          className="md:hidden p-2 text-foreground/80 rounded-md hover:bg-black/5"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
           data-ocid="nav.menu.toggle"
@@ -96,7 +96,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden bg-navy border-t border-white/10"
+            className="md:hidden bg-white border-t border-border"
           >
             <ul className="px-4 py-3 flex flex-col gap-1">
               {navLinks.map((link) => (
@@ -104,7 +104,7 @@ export default function Navbar() {
                   <a
                     href={link.href}
                     onClick={closeMenu}
-                    className="block px-4 py-2.5 text-white/80 hover:text-gold transition-colors font-medium"
+                    className="block px-4 py-2.5 text-foreground/70 hover:text-gold transition-colors font-medium"
                     data-ocid={`nav.mobile.${link.label.toLowerCase()}.link`}
                   >
                     {link.label}

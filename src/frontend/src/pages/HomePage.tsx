@@ -1,6 +1,5 @@
 import AboutSection from "../components/AboutSection";
 import AchievementsSection from "../components/AchievementsSection";
-import ClassesSection from "../components/ClassesSection";
 import ContactSection from "../components/ContactSection";
 import FooterSection from "../components/FooterSection";
 import HeroSection from "../components/HeroSection";
@@ -14,7 +13,6 @@ export default function HomePage() {
       <main>
         <HeroSection />
         <AboutSection />
-        <ClassesSection />
         <AchievementsSection />
         <ReviewsSection />
         <ContactSection />
