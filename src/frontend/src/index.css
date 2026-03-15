@@ -1,0 +1,126 @@
+@font-face {
+  font-family: "Playfair Display";
+  src: url("/assets/fonts/PlayfairDisplay.woff2") format("woff2");
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Navy & Gold French-inspired palette */
+    --background: 97 0.005 260;
+    --foreground: 18 0.04 260;
+
+    --card: 99 0.003 260;
+    --card-foreground: 18 0.04 260;
+
+    --popover: 99 0.003 260;
+    --popover-foreground: 18 0.04 260;
+
+    /* Navy blue */
+    --primary: 28 0.09 260;
+    --primary-foreground: 98 0.01 260;
+
+    /* Gold accent */
+    --secondary: 78 0.14 85;
+    --secondary-foreground: 18 0.06 85;
+
+    --muted: 93 0.01 260;
+    --muted-foreground: 50 0.04 260;
+
+    --accent: 78 0.14 85;
+    --accent-foreground: 18 0.06 85;
+
+    --destructive: 50 0.22 27;
+    --destructive-foreground: 98 0.01 260;
+
+    --border: 88 0.02 260;
+    --input: 88 0.02 260;
+    --ring: 28 0.09 260;
+
+    --radius: 0.5rem;
+
+    --chart-1: 28 0.09 260;
+    --chart-2: 78 0.14 85;
+    --chart-3: 55 0.18 160;
+    --chart-4: 65 0.16 30;
+    --chart-5: 40 0.12 300;
+
+    --sidebar: 28 0.09 260;
+    --sidebar-foreground: 98 0.01 260;
+    --sidebar-primary: 78 0.14 85;
+    --sidebar-primary-foreground: 18 0.06 85;
+    --sidebar-accent: 20 0.12 260;
+    --sidebar-accent-foreground: 98 0.01 260;
+    --sidebar-border: 22 0.08 260;
+    --sidebar-ring: 78 0.14 85;
+
+    /* Custom */
+    --gold: 78 0.14 85;
+    --navy: 28 0.09 260;
+    --navy-light: 38 0.08 260;
+    --cream: 97 0.008 85;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Plus Jakarta Sans", "General Sans", sans-serif;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: "Playfair Display", Georgia, serif;
+  }
+
+  .text-gold {
+    color: oklch(var(--gold));
+  }
+
+  .bg-navy {
+    background-color: oklch(var(--navy));
+  }
+
+  .bg-navy-light {
+    background-color: oklch(var(--navy-light));
+  }
+
+  .bg-cream {
+    background-color: oklch(var(--cream));
+  }
+
+  .border-gold {
+    border-color: oklch(var(--gold));
+  }
+
+  .fleur-pattern {
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      oklch(var(--gold) / 0.08) 1px,
+      transparent 0
+    );
+    background-size: 32px 32px;
+  }
+
+  .tricolor-bar {
+    background: linear-gradient(
+      to right,
+      #002395 33.33%,
+      #ffffff 33.33% 66.66%,
+      #ed2939 66.66%
+    );
+  }
+}
