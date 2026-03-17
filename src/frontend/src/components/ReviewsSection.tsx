@@ -1,43 +1,15 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Quote, Star } from "lucide-react";
-import { motion } from "motion/react";
+import { Textarea } from "@/components/ui/textarea";
+import { useQueryClient } from "@tanstack/react-query";
+import { Loader2, Quote, Star } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import { useState } from "react";
 import type { Review } from "../backend.d";
+import { useActor } from "../hooks/useActor";
 import { useReviews } from "../hooks/useQueries";
-
-const seedReviews: Review[] = [
-  {
-    reviewerName: "Sunita Sharma (Parent)",
-    grade: 10n,
-    starRating: 5n,
-    year: 2024n,
-    reviewText:
-      "My daughter Priya scored a perfect 100 in French! The teaching methodology here is exceptional. The teacher has a unique way of making French grammar simple and enjoyable. Highly recommended!",
-  },
-  {
-    reviewerName: "Rajesh Mehta (Parent)",
-    grade: 10n,
-    starRating: 5n,
-    year: 2024n,
-    reviewText:
-      "Aryan dreaded French initially but after joining these classes, he not only loves the language but scored 100/100 in his boards. The patient and personalised approach makes all the difference.",
-  },
-  {
-    reviewerName: "Kavitha Iyer (Parent)",
-    grade: 9n,
-    starRating: 5n,
-    year: 2023n,
-    reviewText:
-      "Best French tutor in the city. Sneha improved from 72 to 100 in one year. The structured curriculum, regular tests, and motivating teaching style helped her achieve what we thought was impossible.",
-  },
-  {
-    reviewerName: "Meena Kapoor (Parent)",
-    grade: 10n,
-    starRating: 5n,
-    year: 2023n,
-    reviewText:
-      "Rohan's French transformation has been remarkable. The teacher's depth of knowledge and passion is infectious. Classes are engaging and the exam preparation was thorough and strategic.",
-  },
-];
 
 const STAR_KEYS = ["s1", "s2", "s3", "s4", "s5"];
 const SKELETON_KEYS = ["sk-0", "sk-1", "sk-2", "sk-3"];
@@ -52,6 +24,41 @@ function StarRating({ rating }: { rating: number }) {
           className={i < rating ? "fill-current" : "opacity-30"}
           style={{ color: "oklch(78% 0.14 85)" }}
         />
+      ))}
+    </div>
+  );
+}
+
+function StarPicker({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange: (v: number) => void;
+}) {
+  const [hovered, setHovered] = useState(0);
+  return (
+    <div className="flex gap-1">
+      {STAR_KEYS.map((k, i) => (
+        <button
+          key={k}
+          type="button"
+          onClick={() => onChange(i + 1)}
+          onMouseEnter={() => setHovered(i + 1)}
+          onMouseLeave={() => setHovered(0)}
+          className="focus:outline-none"
+          aria-label={`Rate ${i + 1} star${i + 1 > 1 ? "s" : ""}`}
+        >
+          <Star
+            size={22}
+            className="transition-all duration-150"
+            style={{
+              color: "oklch(78% 0.14 85)",
+              fill:
+                i < (hovered || value) ? "oklch(78% 0.14 85)" : "transparent",
+            }}
+          />
+        </button>
       ))}
     </div>
   );
@@ -75,10 +82,10 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
       <div className="flex items-start justify-between mb-4">
         <div>
           <p className="font-semibold text-foreground text-sm">
-            {review.reviewerName}
+            {review.studentName}
           </p>
           <p className="text-foreground/50 text-xs mt-0.5">
-            Grade {Number(review.grade)} • {Number(review.year)}
+            {Number(review.year)}
           </p>
         </div>
         <StarRating rating={Number(review.starRating)} />
@@ -91,9 +98,139 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
   );
 }
 
+function ReviewForm() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+  const [studentName, setStudentName] = useState("");
+  const [reviewText, setReviewText] = useState("");
+  const [starRating, setStarRating] = useState(5);
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!actor) return;
+    setSubmitting(true);
+    setError("");
+    try {
+      await actor.addReview({
+        studentName: studentName.trim(),
+        reviewText: reviewText.trim(),
+        starRating: BigInt(starRating),
+        year: BigInt(new Date().getFullYear()),
+      });
+      await queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      setSuccess(true);
+      setStudentName("");
+      setReviewText("");
+      setStarRating(5);
+      setTimeout(() => setSuccess(false), 5000);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="mt-14 max-w-xl mx-auto bg-white rounded-2xl border border-border shadow-md p-8"
+    >
+      <h3 className="font-display text-xl font-bold text-foreground mb-1">
+        Share Your Experience
+      </h3>
+      <p className="text-foreground/55 text-sm mb-6">
+        We'd love to hear how your child has grown. Leave a review below!
+      </p>
+
+      <AnimatePresence>
+        {success && (
+          <motion.div
+            key="success"
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            className="mb-5 rounded-xl bg-green-50 border border-green-200 text-green-800 px-4 py-3 text-sm font-medium"
+            data-ocid="reviews.success_state"
+          >
+            🎉 Thank you for your review! It has been submitted successfully.
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div>
+          <Label
+            htmlFor="student-name"
+            className="text-sm font-medium text-foreground/80 mb-1.5 block"
+          >
+            Student's Name <span className="text-destructive">*</span>
+          </Label>
+          <Input
+            id="student-name"
+            value={studentName}
+            onChange={(e) => setStudentName(e.target.value)}
+            placeholder="e.g. Priya"
+            required
+            data-ocid="reviews.input"
+            className="rounded-xl"
+          />
+        </div>
+
+        <div>
+          <Label
+            htmlFor="review-text"
+            className="text-sm font-medium text-foreground/80 mb-1.5 block"
+          >
+            Your Review <span className="text-destructive">*</span>
+          </Label>
+          <Textarea
+            id="review-text"
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+            placeholder="Tell us about your child's progress and experience..."
+            required
+            rows={4}
+            data-ocid="reviews.textarea"
+            className="rounded-xl resize-none"
+          />
+        </div>
+
+        <div>
+          <Label className="text-sm font-medium text-foreground/80 mb-2 block">
+            Rating
+          </Label>
+          <StarPicker value={starRating} onChange={setStarRating} />
+        </div>
+
+        {error && <p className="text-destructive text-sm">{error}</p>}
+
+        <Button
+          type="submit"
+          disabled={submitting || !studentName.trim() || !reviewText.trim()}
+          className="w-full rounded-xl"
+          data-ocid="reviews.submit_button"
+        >
+          {submitting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...
+            </>
+          ) : (
+            "Submit Review"
+          )}
+        </Button>
+      </form>
+    </motion.div>
+  );
+}
+
 export default function ReviewsSection() {
   const { data, isLoading } = useReviews();
-  const reviews = data && data.length > 0 ? data : seedReviews;
+  const reviews = data ?? [];
 
   return (
     <section id="reviews" className="py-20 sm:py-28 bg-cream">
@@ -112,8 +249,9 @@ export default function ReviewsSection() {
             <span className="text-primary italic"> Are Saying</span>
           </h2>
           <p className="mt-4 text-foreground/60 max-w-xl mx-auto">
-            Real words from real families who have seen their children flourish
-            in French under our guidance.
+            Proven Success: Authentic feedback from parents whose children
+            achieved academic excellence and confidence in French under our
+            guidance.
           </p>
         </motion.div>
 
@@ -141,15 +279,23 @@ export default function ReviewsSection() {
             data-ocid="reviews.empty_state"
           >
             <Quote className="w-12 h-12 mx-auto mb-4 opacity-30" />
-            <p className="font-display text-xl">Reviews coming soon!</p>
+            <p className="font-display text-xl">
+              No reviews yet — be the first!
+            </p>
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 gap-6">
             {reviews.map((review, i) => (
-              <ReviewCard key={review.reviewerName} review={review} index={i} />
+              <ReviewCard
+                key={`${review.studentName}-${i}`}
+                review={review}
+                index={i}
+              />
             ))}
           </div>
         )}
+
+        <ReviewForm />
       </div>
     </section>
   );

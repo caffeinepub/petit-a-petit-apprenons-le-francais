@@ -8,51 +8,201 @@
 
 import { IDL } from '@icp-sdk/core/candid';
 
-export const Achievement = IDL.Record({
-  'studentName' : IDL.Text,
-  'subject' : IDL.Text,
-  'year' : IDL.Nat,
-  'score' : IDL.Nat,
-  'grade' : IDL.Nat,
+export const _CaffeineStorageCreateCertificateResult = IDL.Record({
+  'method' : IDL.Text,
+  'blob_hash' : IDL.Text,
+});
+export const _CaffeineStorageRefillInformation = IDL.Record({
+  'proposed_top_up_amount' : IDL.Opt(IDL.Nat),
+});
+export const _CaffeineStorageRefillResult = IDL.Record({
+  'success' : IDL.Opt(IDL.Bool),
+  'topped_up_amount' : IDL.Opt(IDL.Nat),
 });
 export const Review = IDL.Record({
   'starRating' : IDL.Nat,
+  'studentName' : IDL.Text,
   'year' : IDL.Nat,
   'reviewText' : IDL.Text,
-  'reviewerName' : IDL.Text,
+});
+export const UserRole = IDL.Variant({
+  'admin' : IDL.Null,
+  'user' : IDL.Null,
+  'guest' : IDL.Null,
+});
+export const Board = IDL.Variant({ 'CBSE' : IDL.Null, 'IGCSE' : IDL.Null });
+export const Achievement = IDL.Record({
+  'studentName' : IDL.Text,
+  'year' : IDL.Nat,
+  'score' : IDL.Nat,
   'grade' : IDL.Nat,
+  'board' : Board,
+});
+export const UserProfile = IDL.Record({ 'name' : IDL.Text });
+export const ExternalBlob = IDL.Vec(IDL.Nat8);
+export const FileType = IDL.Variant({
+  'doc' : IDL.Null,
+  'pdf' : IDL.Null,
+  'video' : IDL.Null,
+  'image' : IDL.Null,
+});
+export const Resource = IDL.Record({
+  'title' : IDL.Text,
+  'blob' : ExternalBlob,
+  'description' : IDL.Text,
+  'fileType' : FileType,
+  'uploadedAt' : IDL.Int,
 });
 
 export const idlService = IDL.Service({
-  'addAchievement' : IDL.Func([Achievement], [], []),
+  '_caffeineStorageBlobIsLive' : IDL.Func(
+      [IDL.Vec(IDL.Nat8)],
+      [IDL.Bool],
+      ['query'],
+    ),
+  '_caffeineStorageBlobsToDelete' : IDL.Func(
+      [],
+      [IDL.Vec(IDL.Vec(IDL.Nat8))],
+      ['query'],
+    ),
+  '_caffeineStorageConfirmBlobDeletion' : IDL.Func(
+      [IDL.Vec(IDL.Vec(IDL.Nat8))],
+      [],
+      [],
+    ),
+  '_caffeineStorageCreateCertificate' : IDL.Func(
+      [IDL.Text],
+      [_CaffeineStorageCreateCertificateResult],
+      [],
+    ),
+  '_caffeineStorageRefillCashier' : IDL.Func(
+      [IDL.Opt(_CaffeineStorageRefillInformation)],
+      [_CaffeineStorageRefillResult],
+      [],
+    ),
+  '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
+  '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
   'addReview' : IDL.Func([Review], [], []),
+  'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+  'deleteResource' : IDL.Func([IDL.Nat], [], []),
   'getAchievements' : IDL.Func([], [IDL.Vec(Achievement)], ['query']),
+  'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+  'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+  'getResourceById' : IDL.Func([IDL.Nat], [IDL.Opt(Resource)], ['query']),
+  'getResources' : IDL.Func([], [IDL.Vec(Resource)], ['query']),
   'getReviews' : IDL.Func([], [IDL.Vec(Review)], ['query']),
+  'getUserProfile' : IDL.Func(
+      [IDL.Principal],
+      [IDL.Opt(UserProfile)],
+      ['query'],
+    ),
+  'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+  'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+  'uploadResource' : IDL.Func(
+      [IDL.Text, IDL.Text, ExternalBlob, FileType],
+      [],
+      [],
+    ),
 });
 
 export const idlInitArgs = [];
 
 export const idlFactory = ({ IDL }) => {
-  const Achievement = IDL.Record({
-    'studentName' : IDL.Text,
-    'subject' : IDL.Text,
-    'year' : IDL.Nat,
-    'score' : IDL.Nat,
-    'grade' : IDL.Nat,
+  const _CaffeineStorageCreateCertificateResult = IDL.Record({
+    'method' : IDL.Text,
+    'blob_hash' : IDL.Text,
+  });
+  const _CaffeineStorageRefillInformation = IDL.Record({
+    'proposed_top_up_amount' : IDL.Opt(IDL.Nat),
+  });
+  const _CaffeineStorageRefillResult = IDL.Record({
+    'success' : IDL.Opt(IDL.Bool),
+    'topped_up_amount' : IDL.Opt(IDL.Nat),
   });
   const Review = IDL.Record({
     'starRating' : IDL.Nat,
+    'studentName' : IDL.Text,
     'year' : IDL.Nat,
     'reviewText' : IDL.Text,
-    'reviewerName' : IDL.Text,
+  });
+  const UserRole = IDL.Variant({
+    'admin' : IDL.Null,
+    'user' : IDL.Null,
+    'guest' : IDL.Null,
+  });
+  const Board = IDL.Variant({ 'CBSE' : IDL.Null, 'IGCSE' : IDL.Null });
+  const Achievement = IDL.Record({
+    'studentName' : IDL.Text,
+    'year' : IDL.Nat,
+    'score' : IDL.Nat,
     'grade' : IDL.Nat,
+    'board' : Board,
+  });
+  const UserProfile = IDL.Record({ 'name' : IDL.Text });
+  const ExternalBlob = IDL.Vec(IDL.Nat8);
+  const FileType = IDL.Variant({
+    'doc' : IDL.Null,
+    'pdf' : IDL.Null,
+    'video' : IDL.Null,
+    'image' : IDL.Null,
+  });
+  const Resource = IDL.Record({
+    'title' : IDL.Text,
+    'blob' : ExternalBlob,
+    'description' : IDL.Text,
+    'fileType' : FileType,
+    'uploadedAt' : IDL.Int,
   });
   
   return IDL.Service({
-    'addAchievement' : IDL.Func([Achievement], [], []),
+    '_caffeineStorageBlobIsLive' : IDL.Func(
+        [IDL.Vec(IDL.Nat8)],
+        [IDL.Bool],
+        ['query'],
+      ),
+    '_caffeineStorageBlobsToDelete' : IDL.Func(
+        [],
+        [IDL.Vec(IDL.Vec(IDL.Nat8))],
+        ['query'],
+      ),
+    '_caffeineStorageConfirmBlobDeletion' : IDL.Func(
+        [IDL.Vec(IDL.Vec(IDL.Nat8))],
+        [],
+        [],
+      ),
+    '_caffeineStorageCreateCertificate' : IDL.Func(
+        [IDL.Text],
+        [_CaffeineStorageCreateCertificateResult],
+        [],
+      ),
+    '_caffeineStorageRefillCashier' : IDL.Func(
+        [IDL.Opt(_CaffeineStorageRefillInformation)],
+        [_CaffeineStorageRefillResult],
+        [],
+      ),
+    '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
+    '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
     'addReview' : IDL.Func([Review], [], []),
+    'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
+    'deleteResource' : IDL.Func([IDL.Nat], [], []),
     'getAchievements' : IDL.Func([], [IDL.Vec(Achievement)], ['query']),
+    'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+    'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+    'getResourceById' : IDL.Func([IDL.Nat], [IDL.Opt(Resource)], ['query']),
+    'getResources' : IDL.Func([], [IDL.Vec(Resource)], ['query']),
     'getReviews' : IDL.Func([], [IDL.Vec(Review)], ['query']),
+    'getUserProfile' : IDL.Func(
+        [IDL.Principal],
+        [IDL.Opt(UserProfile)],
+        ['query'],
+      ),
+    'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+    'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+    'uploadResource' : IDL.Func(
+        [IDL.Text, IDL.Text, ExternalBlob, FileType],
+        [],
+        [],
+      ),
   });
 };
 

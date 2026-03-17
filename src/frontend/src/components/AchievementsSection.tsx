@@ -1,58 +1,74 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Trophy } from "lucide-react";
 import { motion } from "motion/react";
+import { Board } from "../backend.d";
 import type { Achievement } from "../backend.d";
 import { useAchievements } from "../hooks/useQueries";
 
 const seedAchievements: Achievement[] = [
   {
-    studentName: "Priya Sharma",
-    subject: "French",
-    year: 2024n,
-    score: 100n,
+    studentName: "Aditya",
+    board: Board.CBSE,
     grade: 10n,
+    score: 99n,
+    year: 2021n,
   },
   {
-    studentName: "Aryan Mehta",
-    subject: "French",
-    year: 2024n,
-    score: 100n,
+    studentName: "Sanjana",
+    board: Board.CBSE,
     grade: 10n,
-  },
-  {
-    studentName: "Sneha Iyer",
-    subject: "French",
-    year: 2023n,
-    score: 100n,
-    grade: 9n,
-  },
-  {
-    studentName: "Rohan Kapoor",
-    subject: "French",
-    year: 2023n,
-    score: 100n,
-    grade: 10n,
-  },
-  {
-    studentName: "Ananya Singh",
-    subject: "French",
+    score: 99n,
     year: 2022n,
-    score: 100n,
-    grade: 10n,
   },
   {
-    studentName: "Vikram Nair",
-    subject: "French",
+    studentName: "Shishir",
+    board: Board.IGCSE,
+    grade: 10n,
+    score: 0n,
     year: 2022n,
+  },
+  {
+    studentName: "Aayush",
+    board: Board.CBSE,
+    grade: 10n,
     score: 100n,
-    grade: 9n,
+    year: 2024n,
+  },
+  {
+    studentName: "Aarin",
+    board: Board.CBSE,
+    grade: 10n,
+    score: 100n,
+    year: 2024n,
+  },
+  {
+    studentName: "Neev",
+    board: Board.CBSE,
+    grade: 10n,
+    score: 100n,
+    year: 2024n,
+  },
+  {
+    studentName: "Rishi",
+    board: Board.CBSE,
+    grade: 10n,
+    score: 99n,
+    year: 2025n,
   },
 ];
+
+function scoreBadge(score: bigint): string {
+  if (score === 0n) return "Grade A 🌟";
+  if (score === 100n) return "100/100 🌟";
+  return `${Number(score)}/100`;
+}
 
 function AchievementCard({
   achievement,
   index,
 }: { achievement: Achievement; index: number }) {
+  const badge = scoreBadge(achievement.score);
+  const isPerfect = achievement.score === 100n || achievement.score === 0n;
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
@@ -62,25 +78,28 @@ function AchievementCard({
       className="relative bg-white rounded-2xl p-6 shadow-md hover:shadow-navy transition-all duration-300 hover:-translate-y-1 text-center border border-border group"
       data-ocid={`achievements.item.${index + 1}`}
     >
-      <div className="inline-flex items-center justify-center w-14 h-14 bg-secondary/20 rounded-full mb-4 group-hover:bg-secondary/30 transition-colors">
-        <Trophy className="w-7 h-7" style={{ color: "oklch(65% 0.18 75)" }} />
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+        <span
+          className={`inline-block text-xs font-bold px-3 py-1 rounded-full shadow-gold ${
+            isPerfect
+              ? "bg-secondary text-secondary-foreground"
+              : "bg-primary/10 text-primary"
+          }`}
+        >
+          {badge}
+        </span>
       </div>
 
-      <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-        <span className="inline-block bg-secondary text-secondary-foreground text-xs font-bold px-3 py-1 rounded-full shadow-gold">
-          {Number(achievement.score)}/
-          {Number(achievement.score) === 100 ? "100 🌟" : "100"}
-        </span>
+      <div className="inline-flex items-center justify-center w-14 h-14 bg-secondary/20 rounded-full mb-4 mt-2 group-hover:bg-secondary/30 transition-colors">
+        <Trophy className="w-7 h-7" style={{ color: "oklch(65% 0.18 75)" }} />
       </div>
 
       <h3 className="font-display text-lg font-bold text-foreground">
         {achievement.studentName}
       </h3>
-      <p className="text-foreground/60 text-sm mt-1">
-        {achievement.subject} • Grade {Number(achievement.grade)}
-      </p>
+      <p className="text-foreground/60 text-sm mt-1">{achievement.board}</p>
       <p className="text-foreground/40 text-xs mt-1">
-        Year {Number(achievement.year)}
+        Grade {Number(achievement.grade)} • {Number(achievement.year)}
       </p>
     </motion.div>
   );
@@ -106,12 +125,11 @@ export default function AchievementsSection() {
           </p>
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground">
             Our Star Students
-            <span className="text-gold italic"> — Perfect 100!</span>
+            <span className="text-gold italic"> — Top Scores!</span>
           </h2>
           <p className="mt-4 text-foreground/60 max-w-xl mx-auto">
-            These brilliant students achieved the perfect score of 100/100 in
-            their French examinations — a testament to their dedication and hard
-            work.
+            These outstanding students achieved exceptional scores in their
+            French examinations — a testament to their dedication and hard work.
           </p>
         </motion.div>
 
@@ -143,7 +161,7 @@ export default function AchievementsSection() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {achievements.map((achievement, i) => (
               <AchievementCard
-                key={achievement.studentName}
+                key={`${achievement.studentName}-${i}`}
                 achievement={achievement}
                 index={i}
               />

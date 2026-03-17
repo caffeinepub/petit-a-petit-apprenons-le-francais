@@ -12,16 +12,16 @@ export default function FooterSection() {
           {/* Brand */}
           <div className="flex items-center gap-3">
             <img
-              src="/assets/generated/logo-transparent.dim_300x300.png"
+              src="/assets/uploads/image-3-1.png"
               alt="Logo"
-              className="w-10 h-10 object-contain opacity-80"
+              className="w-12 h-12 object-contain brightness-200"
             />
             <div>
               <p className="font-display text-sm font-bold text-white">
                 Petit à Petit Apprenons le Français
               </p>
               <p className="text-xs text-white/40">
-                French Tuition • Grades 6–10 • India
+                French Learning • Multi-curricula • India (Online)
               </p>
             </div>
           </div>

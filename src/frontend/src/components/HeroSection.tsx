@@ -50,7 +50,7 @@ export default function HeroSection() {
           className="text-sm font-semibold tracking-[0.3em] uppercase mb-4"
           style={{ color: "#d4a843" }}
         >
-          French Tuition • Grades 5–12 • India
+          French Learning • Multi-curricula • India (Online)
         </motion.p>
 
         <motion.h1

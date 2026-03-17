@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 
 const navLinks = [
   { label: "About", href: "#about" },
-  { label: "Classes", href: "#classes" },
-  { label: "Achievements", href: "#achievements" },
+  { label: "Hall of Fame", href: "#achievements" },
+  { label: "Resources", href: "#resources" },
   { label: "Reviews", href: "#reviews" },
   { label: "Contact", href: "#contact" },
 ];
@@ -38,9 +38,9 @@ export default function Navbar() {
           data-ocid="nav.link"
         >
           <img
-            src="/assets/generated/logo-transparent.dim_300x300.png"
+            src="/assets/uploads/image-3-1.png"
             alt="Petit à Petit Logo"
-            className="w-10 h-10 object-contain"
+            className="w-12 h-12 object-contain"
           />
           <div>
             <p className="font-display text-sm font-bold text-foreground leading-tight">
@@ -59,7 +59,7 @@ export default function Navbar() {
               <a
                 href={link.href}
                 className="px-4 py-2 text-sm text-foreground/70 hover:text-gold transition-colors duration-200 font-medium rounded-md hover:bg-black/5"
-                data-ocid={`nav.${link.label.toLowerCase()}.link`}
+                data-ocid={`nav.${link.label.toLowerCase().replace(/\s+/g, "-")}.link`}
               >
                 {link.label}
               </a>
@@ -105,7 +105,7 @@ export default function Navbar() {
                     href={link.href}
                     onClick={closeMenu}
                     className="block px-4 py-2.5 text-foreground/70 hover:text-gold transition-colors font-medium"
-                    data-ocid={`nav.mobile.${link.label.toLowerCase()}.link`}
+                    data-ocid={`nav.mobile.${link.label.toLowerCase().replace(/\s+/g, "-")}.link`}
                   >
                     {link.label}
                   </a>

@@ -12,23 +12,79 @@ import type { Principal } from '@icp-sdk/core/principal';
 
 export interface Achievement {
   'studentName' : string,
-  'subject' : string,
   'year' : bigint,
   'score' : bigint,
   'grade' : bigint,
+  'board' : Board,
+}
+export type Board = { 'CBSE' : null } |
+  { 'IGCSE' : null };
+export type ExternalBlob = Uint8Array;
+export type FileType = { 'doc' : null } |
+  { 'pdf' : null } |
+  { 'video' : null } |
+  { 'image' : null };
+export interface Resource {
+  'title' : string,
+  'blob' : ExternalBlob,
+  'description' : string,
+  'fileType' : FileType,
+  'uploadedAt' : bigint,
 }
 export interface Review {
   'starRating' : bigint,
+  'studentName' : string,
   'year' : bigint,
   'reviewText' : string,
-  'reviewerName' : string,
-  'grade' : bigint,
+}
+export interface UserProfile { 'name' : string }
+export type UserRole = { 'admin' : null } |
+  { 'user' : null } |
+  { 'guest' : null };
+export interface _CaffeineStorageCreateCertificateResult {
+  'method' : string,
+  'blob_hash' : string,
+}
+export interface _CaffeineStorageRefillInformation {
+  'proposed_top_up_amount' : [] | [bigint],
+}
+export interface _CaffeineStorageRefillResult {
+  'success' : [] | [boolean],
+  'topped_up_amount' : [] | [bigint],
 }
 export interface _SERVICE {
-  'addAchievement' : ActorMethod<[Achievement], undefined>,
+  '_caffeineStorageBlobIsLive' : ActorMethod<[Uint8Array], boolean>,
+  '_caffeineStorageBlobsToDelete' : ActorMethod<[], Array<Uint8Array>>,
+  '_caffeineStorageConfirmBlobDeletion' : ActorMethod<
+    [Array<Uint8Array>],
+    undefined
+  >,
+  '_caffeineStorageCreateCertificate' : ActorMethod<
+    [string],
+    _CaffeineStorageCreateCertificateResult
+  >,
+  '_caffeineStorageRefillCashier' : ActorMethod<
+    [[] | [_CaffeineStorageRefillInformation]],
+    _CaffeineStorageRefillResult
+  >,
+  '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
+  '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
   'addReview' : ActorMethod<[Review], undefined>,
+  'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
+  'deleteResource' : ActorMethod<[bigint], undefined>,
   'getAchievements' : ActorMethod<[], Array<Achievement>>,
+  'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
+  'getCallerUserRole' : ActorMethod<[], UserRole>,
+  'getResourceById' : ActorMethod<[bigint], [] | [Resource]>,
+  'getResources' : ActorMethod<[], Array<Resource>>,
   'getReviews' : ActorMethod<[], Array<Review>>,
+  'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
+  'isCallerAdmin' : ActorMethod<[], boolean>,
+  'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
+  'uploadResource' : ActorMethod<
+    [string, string, ExternalBlob, FileType],
+    undefined
+  >,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

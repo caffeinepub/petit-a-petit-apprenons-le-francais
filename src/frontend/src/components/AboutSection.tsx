@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 const stats = [
   { icon: Users, value: "70+", label: "Students Taught" },
   { icon: Award, value: "95%+", label: "Average Score in Boards" },
-  { icon: BookOpen, value: "Grades 5–12", label: "All Levels Covered" },
+  { icon: BookOpen, value: "Multi-curricula", label: "CBSE/ICSE/IGCSE/IB" },
   {
     icon: GraduationCap,
     value: "DELF A1/A2/B1",
@@ -42,8 +42,8 @@ export default function AboutSection() {
               </p>
               <p>
                 Over the past five years, I have mentored more than 70 students,
-                all of whom achieved scores of 95% and above in their board
-                exams. This success is the result of a highly personalized
+                all of whom achieved an average score of more than 95% in their
+                board exams. This success is the result of a highly personalized
                 approach: I begin by identifying each student's unique strengths
                 and weaknesses to design bespoke lessons. By constantly
                 reviewing progress and adjusting my strategy, I ensure that my
